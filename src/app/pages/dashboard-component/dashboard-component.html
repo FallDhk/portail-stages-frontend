@@ -1,0 +1,30 @@
+
+<h2>Dashboard </h2>
+
+@if (role == "ETUDIANT"){
+  <div class="grid">
+    <div class="card">Mes candidatures <b>{{stats.mesCandidatures}}</b></div>
+    <div class="card">Mes conventions <b>{{stats.mesConventions}}</b></div>
+    <div class="card">Signées <b>{{stats.conventionsSignee}}</b></div>
+    <div class="card">Validées <b>{{stats.conventionsValidee}}</b></div>
+  </div>
+}
+
+@if (role == "ENTREPRISE"){
+  <div class="grid">
+    <div class="card">Mes offres <b>{{stats.mesOffres}}</b></div>
+    <div class="card">Candidatures reçues <b>{{stats.candidaturesRecues}}</b></div>
+    <div class="card">Signées <b>{{stats.conventionsSignee}}</b></div>
+    <div class="card">Validées <b>{{stats.conventionsValidee}}</b></div>
+  </div>
+}
+@if (role == "ADMIN"){
+  <div class="grid">
+    <div class="card">Total candidatures <b>{{stats.totalCandidatures}}</b></div>
+    <div class="card">Total conventions <b>{{stats.totalConventions}}</b></div>
+    <div class="card">En préparation <b>{{stats.enPreparation}}</b></div>
+    <div class="card">Signée étudiant <b>{{stats.signeeEtudiant}}</b></div>
+    <div class="card">Signée entreprise <b>{{stats.signeeEntreprise}}</b></div>
+    <div class="card">Validée <b>{{stats.validee}}</b></div>
+  </div>
+}

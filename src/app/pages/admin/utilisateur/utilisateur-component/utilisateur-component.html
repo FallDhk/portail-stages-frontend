@@ -1,0 +1,45 @@
+<div class="page-container">
+
+  <h2>Utilisateurs</h2>
+
+  <div class="card">
+    <a routerLink="/admin/users/new">➕ Ajouter</a>
+    @if (loading) {
+      <p class="loading">Chargement...</p>
+    }
+
+    @if (!loading && list.length === 0) {
+      <p class="empty">Aucun stage.</p>
+    }
+
+    @if (!loading && list.length > 0) {
+      <table class="table">
+        <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Email</th>
+          <th>Role</th>
+        </tr>
+        </thead>
+
+        <tbody>
+          @for (u of list; track u.id) {
+            <tr>
+              <td>{{ u.nom }}</td>
+              <td>{{ u.email }}</td>
+              <td>
+                <span class="badge"
+                      [ngClass]="getBadge(u.role).class">
+                  {{ getBadge(u.role).text }}
+                </span>
+              </td>
+
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+
+  </div>
+
+</div>

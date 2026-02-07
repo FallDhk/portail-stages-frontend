@@ -1,0 +1,59 @@
+<div class="page-container">
+  <h2>Les offres de stage</h2>
+
+  <div class="card">
+
+    @if (pages) {
+
+      <table class="table">
+        <thead>
+        <tr>
+          <th>Titre</th>
+          <th>Filière</th>
+          <th>Niveau</th>
+          <th>Lieu</th>
+          <th>Dates</th>
+          <th>Action</th>
+        </tr>
+        </thead>
+
+        <tbody>
+          @for (offre of pages.content; track offre.id) {
+            <tr>
+              <td>{{ offre.titre }}</td>
+              <td>{{ offre.filiereCible }}</td>
+              <td>{{ offre.niveauCible }}</td>
+              <td>{{ offre.lieu }}</td>
+              <td>{{ offre.dateDebut }} → {{ offre.dateFin }}</td>
+              <td>
+                <a class="btn success"
+                   [routerLink]="['/etudiant/offres', offre.id]">
+                  Voir
+                </a>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+
+      <div>
+        <button
+          (click)="load(pages.number - 1)"
+          [disabled]="pages.first">
+          Précédent
+        </button>
+
+        <span>{{ pages.number + 1 }} / {{ pages.totalPages }}</span>
+
+        <button
+          (click)="load(pages.number + 1)"
+          [disabled]="pages.last">
+          Suivant
+        </button>
+      </div>
+
+    } @else {
+      <p>Chargement...</p>
+    }
+  </div>
+</div>

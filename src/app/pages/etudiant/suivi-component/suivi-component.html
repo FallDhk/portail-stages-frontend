@@ -1,0 +1,178 @@
+<div class="page-container">
+  @if (convention) {
+    <div class="card info-card">
+      <h2>Convention</h2>
+
+      <div class="grid">
+        <div><b>Étudiant :</b> {{ convention.etudiant?.nom }}</div>
+        <div><b>Entreprise :</b> {{ convention.entreprise?.nom }}</div>
+        <div><b>Offre :</b> {{ convention.offre?.titre }}</div>
+        <div><b>Encadrant :</b> {{ convention.encadrantPedagogique?.nom }}</div>
+
+        <div><b>Période :</b>
+          {{ convention.dateDebut }} → {{ convention.dateFin }}
+        </div>
+
+        <div>
+          <b>Statut :</b>
+          <span class="badge success">{{ convention.statut }}</span>
+        </div>
+      </div>
+    </div>
+  }
+
+  <h2>Suivi du stage</h2>
+
+  <div class="card">
+
+    <p class="total">Progression totale : {{ total }}%</p>
+
+    @if (loading) {
+      <p class="loading">Chargement...</p>
+    }
+
+    @if (!loading && list.length === 0) {
+      <p class="empty">Aucun suivi pour le moment.</p>
+    }
+
+    @if (!loading && list.length > 0) {
+      <table class="table">
+        <thead>
+        <tr>
+
+          <th>Description</th>
+          <th>Progression</th>
+          <th>Commentaire encadrant</th>
+          <th>Statut</th>
+        </tr>
+        </thead>
+
+        <tbody>
+          @for (s of list; track s.id) {
+            <tr>
+              <td>{{ s.contenu }}</td>
+              <td>{{ s.progression }}%</td>
+              <td>{{ s.commentaireEncadrant || '-' }}</td>
+              <td>
+                 <span class="badge"
+                       [class.accepted]="s.valide"
+                       [class.pending]="!s.valide">
+                  {{ s.valide ? 'validé' : 'Non validé' }}
+                </span>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+
+  </div>
+
+  @if (canAdd) {
+    <div class="card form-card ">
+      <h3> Ajouter un suivi</h3>
+
+      <form (ngSubmit)="submit()">
+<!--        <input type="text" class="input"-->
+<!--               placeholder="Titre"-->
+<!--               [(ngModel)]="form.titre"-->
+<!--               name="titre"-->
+<!--               required>-->
+<!--          <br>-->
+        <input type="number" class="input"
+               placeholder="Progression %"
+               [(ngModel)]="form.progression"
+               name="progression"
+               min="1"
+               max="100"
+               required>
+        <br>
+        <textarea placeholder="Description" class="input"
+                  [(ngModel)]="form.contenu"
+                  name="contenu"></textarea>
+<br>
+        <button class="btn success" type="submit">
+          Ajouter
+        </button>
+      </form>
+    </div>
+  }
+
+  @if (!canAdd) {
+    <p class="empty">
+      ⛔ Suivi bloqué (progression complète ou convention non validée).
+    </p>
+  }
+
+  <div class="card">
+
+    <h3>Dépôt du rapport PDF</h3>
+
+    @if (total < 100) {
+      <p class="muted">Le suivi doit être à 100% pour déposer le rapport.</p>
+    }
+
+    @if (total >= 100) {
+
+      <div class="card">
+
+        @if (rapport) {
+          <p class="success"> Rapport déjà déposé</p>
+
+          <a class="btn"
+             [href]="'http://localhost:8080/' + rapport.cheminFichier"
+             target="_blank">
+            Télécharger rapport
+          </a>
+        }
+
+        @else {
+          <input type="file"
+                 accept="application/pdf"
+                 (change)="onFileSelected($event)" />
+
+          <br /><br />
+
+          <button class="btn primary"
+                  (click)="deposerRapport()"
+                  [disabled]="!selectedFile || uploading">
+
+            @if (uploading) { Envoi... } @else { Déposer }
+          </button>
+
+          @if (uploadOk) {
+            <p class="success">Rapport déposé avec succès </p>
+          }
+
+          @if (errorMsg) {
+            <p class="error">{{ errorMsg }}</p>
+          }
+        }
+
+      </div>
+
+
+    }
+
+  </div>
+
+  <div class="card card1">
+    <h3>Soutenance</h3>
+
+    @if (soutenance) {
+
+      <div class="alert success">
+        Soutenance déjà programmée le {{ soutenance.dateSoutenance | date:'dd/MM/yyyy HH:mm' }}
+      </div>
+
+      <div><b>Salle :</b> {{ soutenance.salle }}</div>
+      <div class="multiline"><b>Jury :</b><br> {{ soutenance.jury }}</div>
+
+
+
+    }
+
+  </div>
+
+
+</div>

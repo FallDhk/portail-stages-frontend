@@ -1,0 +1,48 @@
+<div class="page-container">
+
+  <h2>Mes stages</h2>
+
+  <div class="card">
+
+    @if (loading) {
+      <p class="loading">Chargement...</p>
+    }
+
+    @if (!loading && list.length === 0) {
+      <p class="empty">Aucun stage.</p>
+    }
+
+    @if (!loading && list.length > 0) {
+      <table class="table">
+        <thead>
+        <tr>
+          <th>Entreprise</th>
+          <th>Offre</th>
+          <th>Période</th>
+          <th>Encadrant</th>
+          <th>Action</th>
+        </tr>
+        </thead>
+
+        <tbody>
+          @for (c of list; track c.id) {
+            <tr>
+              <td>{{ c.entreprise?.nom }}</td>
+              <td>{{ c.offre?.titre }}</td>
+              <td>{{ c.offre?.dateDebut }} → {{ c.offre?.dateFin }}</td>
+              <td>{{ c.encadrantPedagogique?.nom || '-' }}</td>
+              <td>
+                <a class="btn success"
+                   [routerLink]="['/etudiant/suivi', c.id]">
+                  Suivi
+                </a>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+
+  </div>
+
+</div>

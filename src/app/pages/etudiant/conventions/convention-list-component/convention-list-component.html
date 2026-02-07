@@ -1,0 +1,61 @@
+<div class="page-container">
+
+  <h2>Mes Conventions</h2>
+
+  <div class="card">
+
+    @if (loading) {
+      <p class="loading">Chargement...</p>
+    }
+
+    @if (!loading && list.length === 0) {
+      <p class="empty">Vous n'avez aucune convention.</p>
+    }
+
+    @if (!loading && list.length > 0) {
+      <table class="table">
+        <thead>
+        <tr>
+          <th>Offre</th>
+          <th>Entreprise</th>
+          <th>Tuteur</th>
+          <th>Signature Entreprise</th>
+          <th>Signature Étudiant</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+
+        <tbody>
+          @for (c of list; track c.id) {
+            <tr>
+              <td>{{ c.offre?.titre }}</td>
+              <td>{{ c.offre?.entreprise?.nom }}</td>
+              <td>{{ c.tuteurEntreprise || '-' }}</td>
+              <td>
+                <span class="badge"
+                      [class.accepted]="c.signeEntrepriseAt"
+                      [class.pending]="!c.signeEntrepriseAt">
+                  {{ c.signeEntrepriseAt ? 'Signée' : 'Non signée' }}
+                </span>
+              </td>
+              <td>
+                <span class="badge"
+                      [class.accepted]="c.signeEtudiantAt"
+                      [class.pending]="!c.signeEtudiantAt">
+                  {{ c.signeEtudiantAt ? 'Signée' : 'Non signée' }}
+                </span>
+              </td>
+              <td class="actions">
+                <button class="btn success"
+                        (click)="signer(c.id)"
+                        [disabled]="c.signeEtudiantAt">
+                  Signer
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </div>
+</div>

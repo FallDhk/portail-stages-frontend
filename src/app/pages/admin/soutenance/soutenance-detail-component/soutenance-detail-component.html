@@ -1,0 +1,159 @@
+ <h2>Détails convention</h2>
+<div class="page-container">
+  @if (convention) {
+    <div class="card info-card">
+      <h2>Convention</h2>
+
+      <div class="grid">
+        <div><b>Étudiant :</b> {{ convention.etudiant?.nom }}</div>
+        <div><b>Entreprise :</b> {{ convention.entreprise?.nom }}</div>
+        <div><b>Offre :</b> {{ convention.offre?.titre }}</div>
+        <div><b>Encadrant :</b> {{ convention.encadrantPedagogique?.nom }}</div>
+
+        <div><b>Période :</b>
+          {{ convention.dateDebut }} → {{ convention.dateFin }}
+        </div>
+
+        <div>
+          <b>Statut :</b>
+          <span class="badge success">{{ convention.statut }}</span>
+        </div>
+      </div>
+    </div>
+  }
+
+  <h2>Suivi du stage</h2>
+
+  <div class="card">
+
+<!--    <p class="total">Progression totale : {{ total }}%</p>-->
+
+    @if (loading) {
+      <p class="loading">Chargement...</p>
+    }
+
+    @if (!loading && list.length === 0) {
+      <p class="empty">Aucun suivi pour le moment.</p>
+    }
+
+    @if (!loading && list.length > 0) {
+      <table class="table">
+        <thead>
+        <tr>
+
+          <th>Description</th>
+          <th>Progression</th>
+          <th>Commentaire encadrant</th>
+        </tr>
+        </thead>
+
+        <tbody>
+          @for (s of list; track s.id) {
+            <tr>
+              <td>{{ s.contenu }}</td>
+              <td>{{ s.progression }}%</td>
+              <td>{{ s.commentaireEncadrant || '-' }}</td>
+
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+
+  </div>
+
+  <div class="card card1">
+
+    <h3>rapport PDF</h3>
+
+      @if (rapport) {
+
+        <a class="btn"
+           [href]="'http://localhost:8080/' + rapport.cheminFichier"
+           target="_blank">
+          Télécharger rapport
+        </a>
+
+        <span class="badge"
+              [class.accepted]="rapport.valideEncadrant"
+              [class.pending]="!rapport.valideEncadrant">
+                  {{ rapport.valideEncadrant ? 'Validé' : 'En attente' }}
+          </span>
+
+
+      }
+
+
+  </div>
+
+
+    <div class="card card1">
+      <h3>Programmer la soutenance</h3>
+
+      @if (soutenance) {
+
+        <div class="alert success">
+          Soutenance déjà programmée le {{ soutenance.dateSoutenance | date:'dd/MM/yyyy HH:mm' }}
+        </div>
+
+        <div><b>Salle :</b> {{ soutenance.salle }}</div>
+        <div class="multiline"><b>Jury :</b><br> {{ soutenance.jury }}</div>
+
+        <div class="section">
+          <h4> Note finale</h4>
+          @if (!soutenance?.noteFinale) {
+            <input type="number"
+                   class="form-input"
+                   [(ngModel)]="note"
+                   min="0"
+                   max="20">
+
+            <div class="actions">
+              <button class="btn primary" (click)="noter()">Enregistrer note</button>
+            </div>
+          } @else {
+            <p><b>{{ soutenance?.noteFinale }}</b></p>
+          }
+          @if (!soutenance?.valide) {
+            <div class="actions">
+
+              <button class="btn success"
+                      (click)="valider()"
+                      [disabled]="!soutenance?.noteFinale">
+                Valider soutenance
+              </button>
+
+            </div>
+          }@else{
+            <span class="badge"
+                  [class.accepted]="soutenance?.valide">
+                  Validé
+          </span>
+          }
+        </div>
+
+      } @else {
+        <div class="form-group">
+          <label>Date</label>
+          <input type="datetime-local" [(ngModel)]="form.dateSoutenance" class="input">
+        </div>
+
+        <div class="form-group">
+          <label>Salle</label>
+          <input type="text" [(ngModel)]="form.salle" class="input">
+        </div>
+
+        <div class="form-group">
+          <label>Jury</label>
+          <textarea
+            [(ngModel)]="form.jury" class="input">
+          </textarea>
+        </div>
+        <button class="btn success" (click)="planifier()">
+          Programmer
+        </button>
+      }
+
+    </div>
+</div>
+

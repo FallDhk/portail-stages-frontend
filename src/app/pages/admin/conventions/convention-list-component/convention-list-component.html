@@ -1,0 +1,70 @@
+<div class="page-container">
+
+  <h2>Conventions</h2>
+
+  <div class="card">
+
+    @if (loading) {
+      <p class="loading">Chargement...</p>
+    }
+
+    @if (!loading && list.length === 0) {
+      <p class="empty">Aucune convention à valider.</p>
+    }
+
+    @if (!loading && list.length > 0) {
+      <table class="table">
+        <thead>
+        <tr>
+          <th>Offre</th>
+          <th>Étudiant</th>
+          <th>Entreprise</th>
+          <th>Tuteur</th>
+          <th>Signatures</th>
+          <th>Encadrant</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+
+        <tbody>
+          @for (c of list; track c.id) {
+            <tr>
+              <td>{{ c.offre?.titre }}</td>
+              <td>{{ c.etudiant?.prenom }} {{ c.etudiant?.nom }}</td>
+              <td>{{ c.offre?.entreprise?.nom }}</td>
+              <td>{{ c.tuteurEntreprise || '-' }}</td>
+              <td>
+                <span class="badge"
+                      [class.accepted]="c.valideAdminAt "
+                      [class.pending]="!(c.signeEntrepriseAt && c.signeEtudiantAt)">
+                  {{ (c.valideAdminAt) ? 'Signées' : 'En attente' }}
+                </span>
+              </td>
+              <td>
+                @if (c.encadrantPedagogique != null) {
+                  {{ c.encadrantPedagogique.nom}}
+                } @else {
+                  <select [(ngModel)]="c.encadrantId" class="form-select">
+                    @for (e of enseignants; track e.id) {
+                      <option [value]="e.id">
+                        {{ e.nom }} {{ e.prenom }}
+                      </option>
+                    }
+                  </select>
+                }
+
+              </td>
+              <td class="actions">
+                <button class="btn success"
+                        (click)="valider(c.id, c.encadrantId)"
+                        [disabled]="!c.signeEntrepriseAt || !c.signeEtudiantAt || c.valideAdminAt">
+                  Valider
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </div>
+</div>

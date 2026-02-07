@@ -1,0 +1,98 @@
+<div class="page-container">
+
+  <h2>Conventions</h2>
+
+  <div class="card">
+
+    @if (loading) {
+      <p class="loading">Chargement...</p>
+    }
+
+    @if (!loading && list.length === 0) {
+      <p class="empty">Aucune convention trouvée.</p>
+    }
+
+    @if (!loading && list.length > 0) {
+      <table class="table">
+        <thead>
+        <tr>
+          <th>Étudiant</th>
+          <th>Offre</th>
+          <th>Tuteur entreprise</th>
+          <th>Signature</th>
+          <th>Statut</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+
+        <tbody>
+          @for (c of list; track c.id) {
+            <tr>
+              <td>
+                {{ c.etudiant?.nom }}
+                {{ c.etudiant?.user?.nom }}
+              </td>
+
+              <td>{{ c.offre?.titre }}</td>
+
+              <td>
+                @if(c.tuteurEntreprise != null){
+                  {{ c.tuteurEntreprise }}
+                }
+                @else{
+                  <input
+                    class="input"
+                    [formControl]="tuteurForms[c.id].controls['tuteur']"
+                    placeholder="Nom du tuteur"
+                  />
+                  <button
+                    class="btn success"
+                    (click)="assignTuteur(c.id)">
+                    Assigner
+                  </button>
+                }
+
+              </td>
+
+              <td>
+                <span class="badge"
+                      [class.accepted]="c.signeEntrepriseAt"
+                      [class.pending]="!c.signeEntrepriseAt">
+                  {{ c.signeEntrepriseAt ? 'Signée' : 'Non signée' }}
+                </span>
+              </td>
+
+              <td>
+                <span class="badge"
+                      [class.accepted]="c.statut === 'VALIDEE'"
+                      [class.pending]="c.statut !== 'VALIDEE'">
+                  {{ c.statut }}
+                </span>
+              </td>
+
+              <td class="actions">
+
+              @if(c.signeEntrepriseAt == null){
+                <button
+                  class="btn"
+                  (click)="signer(c.id)"
+                  [disabled]="c.signeEntrepriseAt">
+                  Signer
+                </button>
+              } @else {
+                <button
+                  class="btn"
+
+                  [disabled]="true">
+                  Signer
+                </button>
+              }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+
+  </div>
+</div>

@@ -1,0 +1,49 @@
+<div class="page-container">
+
+  <h2>Mes stagiaires</h2>
+
+  <div class="card">
+
+    @if (loading) {
+      <p class="loading">Chargement...</p>
+    }
+
+    @if (!loading && list.length === 0) {
+      <p class="empty">Aucune convention.</p>
+    }
+
+    @if (!loading && list.length > 0) {
+      <table class="table">
+        <thead>
+        <tr>
+          <th>Étudiant</th>
+          <th>Offre</th>
+          <th>Entreprise</th>
+          <th>Période</th>
+          <th>Progression</th>
+          <th>Action</th>
+        </tr>
+        </thead>
+
+        <tbody>
+          @for (c of list; track c.id) {
+            <tr>
+              <td>{{ c.etudiant?.nom }}</td>
+              <td>{{ c.offre?.titre }}</td>
+              <td>{{ c.entreprise?.nom }}</td>
+              <td>{{ c.dateDebut }} → {{ c.dateFin }}</td>
+              <td>{{ c.progress || 0 }}%</td>
+              <td>
+                <a class="btn"
+                   [routerLink]="['/enseignant/suivi', c.id]">
+                  Ouvrir
+                </a>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+
+  </div>
+</div>

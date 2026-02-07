@@ -1,0 +1,37 @@
+<!--<a routerLink="/dashboard">Dashboard</a>-->
+<!--<a routerLink="/offres">Offres</a>-->
+<!--<a routerLink="/conventions">Conventions</a>-->
+
+<div class="sidebar">
+  <a routerLink="/">Dashboard</a>
+
+  @if (role === 'ETUDIANT') {
+    <a routerLink="/etudiant/offres">Offres</a>
+    <a routerLink="/etudiant/candidature">Mes candidatures</a>
+    <a routerLink="/etudiant/conventions">Conventions</a>
+    <a routerLink="/etudiant/stages">Mes stages</a>
+    <a routerLink="/etudiant/cv">Mon CV</a>
+  }
+
+
+  @if (role === 'ENTREPRISE') {
+
+    <a routerLink="/entreprise/offres">Mes Offres</a>
+    <a routerLink="/entreprise/conventions">Conventions</a>
+    <a routerLink="/entreprise/stagiaire">Stagiaire</a>
+  }
+
+  @if (role === 'ENSEIGNANT') {
+    <a routerLink="/enseignant/stagiaire">Mes stagiaires</a>
+
+  }
+
+  @if (role === 'ADMIN') {
+    <a routerLink="/admin/conventions">Conventions</a>
+    <a routerLink="/admin/stage">Les stages</a>
+    <a routerLink="/admin/users">Utilisateurs</a>
+
+  }
+</div>
+
+

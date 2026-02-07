@@ -1,0 +1,51 @@
+<div class="page-container">
+  <h2>Mes candidatures</h2>
+
+  <div class="card">
+
+    @if (list) {
+
+      <table class="table">
+        <thead>
+        <tr>
+          <th>Titre</th>
+          <th>Entreprise</th>
+
+          <th>Lieu</th>
+          <th>Dates</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+        </thead>
+
+        <tbody>
+          @for (c of list; track c.id) {
+            <tr>
+              <td>{{ c.offre.titre }}</td>
+              <td>{{ c.offre.entreprise.nom }}</td>
+              <td>{{ c.offre.lieu }}</td>
+              <td>{{ c.dateCandidature }}</td>
+              <td>
+                <span class="badge"
+                      [class.accepted]="c.statut=='ACCEPTEE'"
+                      [class.pending]="c.statut=='EN_ATTENTE'">
+                  {{ c.statut=='ACCEPTEE' ? 'Accepté' : 'En attente' }}
+                </span>
+              </td>
+              <td>
+                <a class="btn success"
+                   [routerLink]="['/etudiant/offres', c.offre.id]">
+                  Voir
+                </a>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+
+
+    } @else {
+      <p>Chargement...</p>
+    }
+  </div>
+</div>

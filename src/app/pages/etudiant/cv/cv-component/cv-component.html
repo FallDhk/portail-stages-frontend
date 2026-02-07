@@ -1,0 +1,94 @@
+<div class="page-container">
+
+  <h2 class="mb-4">Modifier une offre de stage</h2>
+
+  <div class="card">
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <div class="form-group">
+        <label class="form-label">Matricule</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="matricule"
+          placeholder="Matricule" class="form-input">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Prenom</label>
+        <input
+          class="form-control"
+          type="text"
+          formControlName="prenom"
+          placeholder="Prenom" class="form-input">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Telephone</label>
+        <input
+          class="form-control"
+          type="text"
+          formControlName="telephone"
+          placeholder="Telephone" class="form-input">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Adresse</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="adresse"
+          placeholder="Adresse" class="form-input">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Niveau</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="niveau"
+          placeholder="Ex: Licence 3" class="form-input">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Annee universitaire</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="anneeUniversitaire"
+          placeholder="Annee universitaire" class="form-input">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Etablissement</label>
+        <input
+          type="text"
+          class="form-control" placeholder="Etablissement"
+          formControlName="etablissement" class="form-input">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Filiere</label>
+        <input
+          type="text"
+          class="form-control" placeholder="Filiere"
+          formControlName="filiere" class="form-input">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Compétences</label>
+        <textarea
+          class="form-control"
+          rows="3"
+          formControlName="competences"
+          placeholder="Compétences" class="form-input"></textarea>
+      </div>
+
+      <div class="d-flex justify-content-between mt-3">
+
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="form.invalid" class="btn success">
+          Enregistrer
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>

@@ -1,0 +1,66 @@
+<div class="page-container">
+
+  <h2>Candidatures pour l'offre</h2>
+
+  <div class="card">
+
+    @if (loading) {
+      <p class="loading">Chargement...</p>
+    }
+
+    @if (!loading && list.length === 0) {
+      <p class="empty">Aucune candidature trouvée.</p>
+    }
+
+    @if (!loading && list.length > 0) {
+      <table class="table">
+        <thead>
+        <tr>
+          <th>Étudiant</th>
+          <th>Email</th>
+          <th>Filière</th>
+          <th>Niveau</th>
+          <th>Date</th>
+          <th>Statut</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+
+        <tbody>
+          @for (c of list; track c.id) {
+            <tr>
+              <td>{{ c.etudiant?.prenom }} {{ c.etudiant?.user?.nom }}</td>
+              <td>{{ c.etudiant?.user?.email }}</td>
+              <td>{{ c.etudiant?.filiere }}</td>
+              <td>{{ c.etudiant?.niveau }}</td>
+              <td>{{ c.dateCandidature | date:'dd/MM/yyyy' }}</td>
+              <td>
+                <span class="badge" [class.accepted]="c.statut === 'ACCEPTEE'"
+                      [class.refused]="c.statut === 'REFUSEE'"
+                      [class.pending]="c.statut === 'EN_ATTENTE'">
+                  {{ c.statut }}
+                </span>
+              </td>
+
+              <td class="actions">
+                <button class="btn success"
+                        (click)="accepter(c.id)"
+                        [disabled]="c.statut !== 'EN_ATTENTE'">
+                  Accepter
+                </button>
+
+                <button class="btn danger"
+                        (click)="refuser(c.id)"
+                        [disabled]="c.statut !== 'EN_ATTENTE'">
+                  Refuser
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+
+  </div>
+</div>
+

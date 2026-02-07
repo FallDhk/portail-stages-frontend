@@ -1,0 +1,46 @@
+<div class="page-container">
+  @if (offer) {
+    <div class="card info-card">
+      <h2>Detail Offre de stage</h2>
+
+      <div class="grid">
+        <div><b>Titre :</b> {{ offer.titre }}</div>
+        <div><b>Description :</b> {{ offer.description }}</div>
+        <div><b>Lieu :</b> {{ offer.lieu }}</div>
+        <div><b>Filière cible :</b> {{ offer.filiereCible }}</div>
+        <div><b>Niveau cible:</b> {{ offer.niveauCible }}</div>
+        <div><b>Missions:</b> {{ offer.missions }}</div>
+        <div><b>Compétences:</b> {{ offer.competences }}</div>
+
+        <div><b>Période :</b>
+          {{ offer.dateDebut }} → {{ offer.dateFin }}
+        </div>
+        <div><b>Entreprise:</b> {{ offer?.entreprise.nom }}</div>
+
+        <br>
+        <div class="tt">
+          @if (cv) {
+            <button class="btn success"
+                    (click)="postuler()"
+                    [disabled]="alreadyApplied">
+
+              {{ alreadyApplied ? 'Déjà postulé' : 'Postuler' }}
+
+            </button>
+
+            @if (alreadyApplied) {
+              <div  class="info">
+                Vous avez déjà postulé à cette offre le {{myCandidature.dateCandidature }} ({{ myCandidature.statut }})
+              </div>
+            }
+          } @else {
+            <p class="cv"><b>vous devez d'abord remplir votre CV</b></p>
+          }
+
+
+        </div>
+      </div>
+    </div>
+  }
+
+</div>

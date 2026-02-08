@@ -10,6 +10,7 @@ export class AuthService {
 
   private api = 'http://localhost:8080/api/auth';
 
+
   constructor(private http: HttpClient) {}
 
   login(data: any) {

@@ -7,6 +7,7 @@ import {HttpClient} from '@angular/common/http';
 export class SuiviService {
 
   private API = 'http://localhost:8080/api/suivi';
+  private API1 = 'http://localhost:8080/api/conventions';
 
   constructor(private http: HttpClient) {}
 
@@ -21,4 +22,9 @@ export class SuiviService {
   getProgressConvention(id: number) {
     return this.http.get<number>(`${this.API}/progress/convention/${id}`);
   }
+
+  getConvation(conventionId: number) {
+    return this.http.get<any>(`${this.API1}/${conventionId}`);
+  }
+
 }

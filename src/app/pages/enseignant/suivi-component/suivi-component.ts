@@ -48,7 +48,10 @@ export class SuiviComponent {
     this.loading = true;
     this.service.getByConvention(this.conventionId).subscribe(res => {
       this.list = res.suivis || res;
-      this.convention = res[0].convention;
+      this.service.getConvation(this.conventionId).subscribe(cov => {
+        this.convention = cov;
+        this.cdr.detectChanges();
+      });
 
       this.total = this.list.reduce((s, x) => s + x.progression, 0);
 
@@ -78,7 +81,8 @@ export class SuiviComponent {
   }
 
   loadRapport() {
-    this.rapportService.getRapportByConvention(this.convention.id)
+
+    this.rapportService.getRapportByConvention(this.conventionId)
       .subscribe(res => {
         this.rapport = res;
         this.cdr.detectChanges();
